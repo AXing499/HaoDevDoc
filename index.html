@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — HaoDev (Network Evidence Pinner)</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --panel: #f6f7f9;
+    --text: #1f2328;
+    --muted: #6e7681;
+    --border: #d9d9d9;
+    --accent: #1a73e8;
+    --code-bg: #f0f1f3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16181d;
+      --panel: #1e2126;
+      --text: #e6e8ea;
+      --muted: #9aa2ac;
+      --border: #33383f;
+      --accent: #7cb0ff;
+      --code-bg: #262a31;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 20px 80px;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.75 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  }
+  main { max-width: 780px; margin: 0 auto; }
+  h1 { font-size: 26px; margin: 0 0 6px; }
+  h2 { font-size: 19px; margin: 40px 0 10px; padding-top: 14px; border-top: 1px solid var(--border); }
+  h3 { font-size: 15px; margin: 22px 0 6px; }
+  p, li { margin: 8px 0; }
+  ul { padding-left: 22px; }
+  .meta { color: var(--muted); font-size: 13px; margin-bottom: 26px; }
+  .lead {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 18px 0;
+  }
+  code {
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 5px;
+    font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--panel); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 44px 0; }
+  a { color: var(--accent); }
+  footer { margin-top: 50px; color: var(--muted); font-size: 13px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Privacy Policy — HaoDev (Network Evidence Pinner)</h1>
+  <p class="meta">Last updated: 2026-09-16 · Applies to version 0.3.1 and later</p>
+
+  <div class="lead">
+    <strong>Summary:</strong> HaoDev does <strong>not</strong> collect, transmit, sell, or share
+    any data. It has no servers, no analytics, no telemetry, and no network access. Everything it
+    produces stays inside your own browser profile, and anything you export is written to your own
+    computer by your browser's normal download mechanism.
+    <br><br>
+    一句话：HaoDev <strong>不收集、不上传、不出售、不共享任何数据</strong>。
+  </div>
+
+  <h2>1. What the extension does with data</h2>
+  <p>HaoDev runs as a <strong>Chrome DevTools panel</strong>. When you open DevTools and use the panel, it:</p>
+  <ol>
+    <li><strong>Reads network request metadata</strong> (URL, method, status, timings, request and
+      response headers, request and response bodies) from the Chrome DevTools Network API
+      (<code>chrome.devtools.network</code>). That API only exposes requests made by the tab whose
+      DevTools window is currently open.</li>
+    <li><strong>Stores the requests you explicitly pin</strong> in your browser's local IndexedDB
+      database inside the extension's own storage area, together with the timestamp, the page it came
+      from (the request's <code>Referer</code> header) and the size.</li>
+    <li><strong>Writes a file to your downloads folder</strong> when you click export
+      (Markdown, self-contained HTML, or JSON).</li>
+  </ol>
+  <p>All three steps happen locally, inside your browser, on your machine.</p>
+
+  <h2>2. What we do NOT do</h2>
+  <ul>
+    <li>We do <strong>not transmit any data anywhere</strong>. The extension contains no
+      <code>fetch</code>, no <code>XMLHttpRequest</code>, no <code>WebSocket</code>, no beacon calls,
+      and requests no host permissions. A static check for network APIs is part of the project's own
+      test suite and runs on every change.</li>
+    <li>We do <strong>not</strong> collect analytics, crash reports, identifiers, or usage statistics.</li>
+    <li>We do <strong>not</strong> read page content, inject scripts, or modify any website. The
+      extension declares no content scripts and no host permissions.</li>
+    <li>We do <strong>not</strong> sell or share data with third parties — there is no data to sell.</li>
+    <li>We do <strong>not</strong> load or execute remote code. All code ships inside the extension
+      package.</li>
+    <li>We do <strong>not</strong> transmit data to any AI service or other processing service.</li>
+  </ul>
+
+  <h2>3. Permissions and why they are needed</h2>
+  <table>
+    <thead>
+      <tr><th>Permission</th><th>Why it is required</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>storage</code></td>
+        <td>Stores your preferences locally: whether auto-redaction is on, your custom redaction
+          field names, export naming/template preferences, and the monthly counter. Nothing leaves
+          the browser.</td>
+      </tr>
+      <tr>
+        <td><code>unlimitedStorage</code></td>
+        <td>Pinned evidence (including full response bodies, up to 256 KB each) is kept in IndexedDB.
+          Without this permission Chrome may evict the database on storage pressure, which would
+          silently destroy evidence the user deliberately saved.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The extension deliberately requests <strong>no</strong> host permissions, <strong>no</strong>
+    <code>tabs</code>, <strong>no</strong> <code>activeTab</code>, <strong>no</strong>
+    <code>scripting</code>, and no content scripts.</p>
+
+  <h2>4. Sensitive data and redaction</h2>
+  <p>Pinned requests may contain credentials. HaoDev therefore includes a redaction engine:</p>
+  <ul>
+    <li>Redaction is applied <strong>when displaying and when exporting</strong> — never to the
+      stored data. The local database always keeps the original values so that (a) rule changes can
+      be re-applied to old records, and (b) a future request-replay feature remains possible.</li>
+    <li>The redaction switch is yours to control. When it is off, exported files contain the original
+      values, and the export dialog shows an explicit red warning before writing.</li>
+    <li><strong>File names are always redacted</strong>, independently of that switch, because file
+      names travel further than file contents (download lists, search indexes, chat upload previews).</li>
+    <li>The self-contained HTML export is <strong>always</strong> redacted, because that format
+      exists to be handed to someone else.</li>
+  </ul>
+
+  <h2>5. Data retention and deletion</h2>
+  <ul>
+    <li>Pinned evidence lives in your browser profile until <strong>you</strong> delete it. The panel
+      provides per-record delete and a scoped "clear" action; deleting removes the record from
+      IndexedDB immediately.</li>
+    <li>Uninstalling the extension removes all of its storage, including pinned evidence, as part of
+      Chrome's normal extension removal.</li>
+    <li>Because nothing is transmitted, there is no server-side copy to delete, and we cannot recover
+      anything for you.</li>
+  </ul>
+
+  <h2>6. Children</h2>
+  <p>The extension is a developer tool. It is not directed at children and collects no personal
+    information from anyone, including children.</p>
+
+  <h2>7. Changes to this policy</h2>
+  <p>Any change to this policy will be published at this URL and noted in
+    <code>CHANGELOG.md</code> with the version that introduced it. Because the extension collects
+    nothing, material changes are unlikely; if the project ever added any form of data collection,
+    that would require a clear in-product disclosure and a permission change that Chrome would show
+    to you on update.</p>
+
+  <h2>8. Contact</h2>
+  <p>Questions, bug reports, or privacy concerns: <strong>axing499@163.com</strong></p>
+  <p class="meta">Replace with a real, monitored address before submitting to the Chrome Web Store —
+    reviewers check that the contact in the listing and in this policy works.</p>
+
+  <hr>
+
+  <h2>隐私政策（中文）</h2>
+  <p class="meta">最后更新：2026-09-16 · 适用于 0.3.1 及以后版本</p>
+
+  <div class="lead">
+    HaoDev <strong>不收集、不上传、不出售、不共享任何数据</strong>。它没有服务器、没有统计上报、
+    没有网络访问。所有内容只存在于你自己的浏览器里；导出的文件由浏览器按正常下载流程写到你自己电脑上。
+  </div>
+
+  <h3>它对你的数据做了什么</h3>
+  <ol>
+    <li><strong>读取网络请求元数据</strong>（URL、方法、状态码、耗时、请求与响应头、请求与响应体），
+      来源是 Chrome 的 DevTools Network API（<code>chrome.devtools.network</code>）—— 该 API 只能看到
+      「当前这个 DevTools 窗口所检查的那个标签页」发出的请求。</li>
+    <li>把你<strong>主动点「固化」的请求</strong>存进浏览器本地 IndexedDB（扩展自己的存储区），
+      附带时间、来源页面（请求的 <code>Referer</code> 头）和体积。</li>
+    <li>在你点导出时，<strong>把一个文件写进你的下载目录</strong>（Markdown / 单文件 HTML / JSON）。</li>
+  </ol>
+  <p>这三步全部发生在本机浏览器内。</p>
+
+  <h3>我们不做的事</h3>
+  <ul>
+    <li><strong>不上传任何数据。</strong> 扩展代码里没有 <code>fetch</code>、没有 <code>XMLHttpRequest</code>、
+      没有 <code>WebSocket</code>、没有 beacon 调用，也没有申请任何 host 权限。
+      项目自己的测试脚本每次改动都会静态检查这一点。</li>
+    <li>不收集统计、崩溃报告、设备标识或使用行为。</li>
+    <li>不读取页面内容、不注入脚本、不修改任何网站（没有 content scripts，没有 host permission）。</li>
+    <li>不向第三方出售或共享数据 —— 没有可卖的数据。</li>
+    <li>不加载、不执行远程代码，全部代码随扩展包一起分发。</li>
+    <li>不把数据传给任何 AI 或云端处理服务。</li>
+  </ul>
+
+  <h3>权限与用途</h3>
+  <table>
+    <thead><tr><th>权限</th><th>为什么需要</th></tr></thead>
+    <tbody>
+      <tr><td><code>storage</code></td>
+        <td>在本机保存偏好：自动脱敏开关、自定义脱敏字段名、导出命名与模板、本月采集计数。</td></tr>
+      <tr><td><code>unlimitedStorage</code></td>
+        <td>固化下来的证据（含完整响应体，单条上限 256 KB）存在 IndexedDB。没有这个权限时
+          Chrome 可能在存储紧张时清掉数据库，等于静默销毁用户主动保存的证据。</td></tr>
+    </tbody>
+  </table>
+  <p>扩展<strong>刻意不申请</strong> host 权限、<code>tabs</code>、<code>activeTab</code>、
+    <code>scripting</code>，也不注入内容脚本。</p>
+
+  <h3>敏感数据与脱敏</h3>
+  <ul>
+    <li>脱敏只在<strong>展示与导出</strong>时应用，<strong>不作用于存储</strong>。本地库里永远是原文，
+      这样规则更新后能对旧记录重新导出，将来做「重放请求」也不会丢原始请求头。</li>
+    <li>开关由你控制。关掉开关导出时文件里是原值，导出弹窗会先给一次明确的红色警告。</li>
+    <li><strong>文件名始终脱敏</strong>（与开关无关）—— 文件名会出现在下载列表、系统搜索、
+      聊天软件上传预览里，传播得比文件内容更远。</li>
+    <li><strong>单文件 HTML 导出一律强制脱敏</strong>，因为那个格式的存在意义就是「发给别人」。</li>
+  </ul>
+
+  <h3>数据保留与删除</h3>
+  <ul>
+    <li>固化的证据存在你的浏览器配置里，直到<strong>你自己</strong>删除。面板提供单条删除与按范围清空，
+      删除即从 IndexedDB 移除。</li>
+    <li>卸载扩展会随 Chrome 的正常卸载流程清除它的全部存储，包括固化的证据。</li>
+    <li>因为不上传，所以不存在服务端副本，我们无法也无需为你恢复任何数据。</li>
+  </ul>
+
+  <h3>儿童</h3>
+  <p>这是开发者工具，不面向儿童，也不向任何人（包括儿童）收集个人信息。</p>
+
+  <h3>政策变更</h3>
+  <p>任何变更都会发布在本地址，并在 <code>CHANGELOG.md</code> 里注明引入变更的版本号。</p>
+
+  <h3>联系方式</h3>
+  <p><strong>axing499@163.com</strong></p>
+
+  <footer>HaoDev · Network Evidence Pinner</footer>
+</main>
+</body>
+</html>
