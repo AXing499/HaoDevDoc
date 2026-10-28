@@ -102,7 +102,15 @@
       test suite and runs on every change.</li>
     <li>We do <strong>not</strong> collect analytics, crash reports, identifiers, or usage statistics.</li>
     <li>We do <strong>not</strong> read page content, inject scripts, or modify any website. The
-      extension declares no content scripts and no host permissions.</li>
+      extension declares no content scripts and no host permissions: nothing is loaded into a page,
+      and nothing runs on a site unless you open DevTools there.</li>
+    <li>One wording caveat, stated plainly: Chrome's own page for this extension still shows the
+      broad warning &ldquo;read and change all your data on websites you visit&rdquo;. That line comes from
+      the DevTools integration itself (the <code>devtools_page</code> manifest key), which has to
+      work on whatever tab you are inspecting. It is <strong>not</strong> a host permission and it
+      cannot be removed without removing the panel. What it is used for: reading the network
+      requests you are already looking at &mdash; see &ldquo;Permissions and why they are needed&rdquo;
+      below.</li>
     <li>We do <strong>not</strong> sell or share data with third parties — there is no data to sell.</li>
     <li>We do <strong>not</strong> load or execute remote code. All code ships inside the extension
       package.</li>
@@ -132,6 +140,14 @@
   <p>The extension deliberately requests <strong>no</strong> host permissions, <strong>no</strong>
     <code>tabs</code>, <strong>no</strong> <code>activeTab</code>, <strong>no</strong>
     <code>scripting</code>, and no content scripts.</p>
+
+  <p><strong>On the warning Chrome shows for this extension.</strong> Chrome lists a DevTools
+    extension as being able to &ldquo;read and change all your data on websites you visit&rdquo;,
+    because the DevTools APIs (<code>chrome.devtools.network</code>,
+    <code>chrome.devtools.inspectedWindow</code>) operate on the tab the user is inspecting. That
+    capability belongs to the DevTools integration, not to a host permission &mdash; this extension
+    declares none. HaoDev uses it to read the network requests already visible in the Network panel,
+    so the user can pin them into a local evidence file; it keeps nothing about page content itself.</p>
 
   <h2>4. Sensitive data and redaction</h2>
   <p>Pinned requests may contain credentials. HaoDev therefore includes a redaction engine:</p>
@@ -198,7 +214,12 @@
       没有 <code>WebSocket</code>、没有 beacon 调用，也没有申请任何 host 权限。
       项目自己的测试脚本每次改动都会静态检查这一点。</li>
     <li>不收集统计、崩溃报告、设备标识或使用行为。</li>
-    <li>不读取页面内容、不注入脚本、不修改任何网站（没有 content scripts，没有 host permission）。</li>
+    <li>不读取页面内容、不注入脚本、不修改任何网站（没有 content scripts，没有 host permission）：
+      不会往任何网页里加载代码，不开 DevTools 时在你访问的网站上什么都不做。</li>
+    <li>一句实话：Chrome 给这个扩展的详情页上仍会显示「读取和更改您在所有网站上的所有数据」这句
+      宽泛的提示。它来自 DevTools 集成本身（清单里的 <code>devtools_page</code> 键）——
+      DevTools 必须能作用于你正在检查的那个标签页。那<strong>不是</strong> host 权限，也没法去掉
+      （去掉就没有面板了）。它的用途只有一个：读取你本来就在看的那些网络请求，见下面「权限与用途」。</li>
     <li>不向第三方出售或共享数据 —— 没有可卖的数据。</li>
     <li>不加载、不执行远程代码，全部代码随扩展包一起分发。</li>
     <li>不把数据传给任何 AI 或云端处理服务。</li>
@@ -217,6 +238,12 @@
   </table>
   <p>扩展<strong>刻意不申请</strong> host 权限、<code>tabs</code>、<code>activeTab</code>、
     <code>scripting</code>，也不注入内容脚本。</p>
+
+  <p><strong>关于 Chrome 给这个扩展显示的那句提示。</strong> Chrome 会把 DevTools 扩展列成
+    「能读取和更改你访问的网站上的所有数据」，因为 DevTools 的 API（<code>chrome.devtools.network</code>、
+    <code>chrome.devtools.inspectedWindow</code>）作用在<strong>你正在检查的那个标签页</strong>上。
+    这项能力属于 DevTools 集成，不属于 host 权限 —— 本扩展一个 host 权限都没申请。HaoDev 用它读取你在
+    网络面板里本来就能看到的那些请求，好让你把它们固化成一份本机证据文件；它本身不保存任何页面内容。</p>
 
   <h3>敏感数据与脱敏</h3>
   <ul>
